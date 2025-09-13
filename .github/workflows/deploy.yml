@@ -1,0 +1,23 @@
+name: Deploy WordPress to Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Copy WordPress files to Docker volume
+        run: |
+          cp -r * /home/khaled/my-app/www/
+
+      - name: Verify WordPress is running
+        run: |
+          curl -f http://localhost:8080 || (echo " WordPress not accessible" && exit 1)
+
